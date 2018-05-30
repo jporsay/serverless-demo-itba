@@ -7,11 +7,10 @@ import {
   withStyles,
   AppBar,
   Toolbar,
-  Typography,
-  GridList
+  Typography
 } from "@material-ui/core";
 import { PhotoLibrary, CameraAlt, CloudUpload } from "@material-ui/icons";
-import ImageGridList from "../../components/ImageGridList";
+import GalleryPage from "pages/GalleryPage";
 
 const styles = theme => ({
   root: {
@@ -35,7 +34,6 @@ class AppContainer extends Component {
   render() {
     const { classes } = this.props;
     return (
-      // <div className={classes.app}>
       <Grid container direction="column" className={classes.root}>
         <AppBar position="static">
           <Toolbar>
@@ -44,21 +42,12 @@ class AppContainer extends Component {
               color="inherit"
               className={classes.flex}
             >
-              Hola
+              InstaCat
             </Typography>
             <Button color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
-        <Grid container direction="column" className={classes.imageList}>
-          <ImageGridList
-            images={[
-              { url: "https://placekitten.com/g/300/300" },
-              { url: "https://placekitten.com/g/300/400" },
-              { url: "https://placekitten.com/g/100/400" },
-              { url: "https://placekitten.com/g/300/600" }
-            ]}
-          />
-        </Grid>
+        <GalleryPage />
         <BottomNavigation showLabels className={classes.nav}>
           <BottomNavigationAction label="Pictures" icon={<PhotoLibrary />} />
           <BottomNavigationAction label="Take picture" icon={<CameraAlt />} />
@@ -68,7 +57,6 @@ class AppContainer extends Component {
           />
         </BottomNavigation>
       </Grid>
-      // </div>
     );
   }
 }
