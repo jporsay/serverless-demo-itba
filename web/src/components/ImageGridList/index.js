@@ -11,11 +11,11 @@ const styles = theme => ({
   }
 });
 
-const ImageGridList = ({ images }) => {
+const ImageGridList = ({ classes, images }) => {
   return (
-    <GridList>
+    <GridList className={classes.root}>
       {images.map(image => (
-        <GridListTile key="TODO">
+        <GridListTile key="TODO" cols={1}>
           <img src={image.url} />
         </GridListTile>
       ))}

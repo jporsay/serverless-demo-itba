@@ -11,6 +11,7 @@ import {
   GridList
 } from "@material-ui/core";
 import { PhotoLibrary, CameraAlt, CloudUpload } from "@material-ui/icons";
+import ImageGridList from "../../components/ImageGridList";
 
 const styles = theme => ({
   root: {
@@ -19,6 +20,10 @@ const styles = theme => ({
     height: "100vh"
   },
   flex: {
+    flex: 1
+  },
+  imageList: {
+    padding: "8px",
     flex: 1
   },
   nav: {
@@ -44,8 +49,15 @@ class AppContainer extends Component {
             <Button color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
-        <Grid container direction="column" className={classes.flex}>
-          {/* TODO: Add GridList component */}
+        <Grid container direction="column" className={classes.imageList}>
+          <ImageGridList
+            images={[
+              { url: "https://placekitten.com/g/300/300" },
+              { url: "https://placekitten.com/g/300/400" },
+              { url: "https://placekitten.com/g/100/400" },
+              { url: "https://placekitten.com/g/300/600" }
+            ]}
+          />
         </Grid>
         <BottomNavigation showLabels className={classes.nav}>
           <BottomNavigationAction label="Pictures" icon={<PhotoLibrary />} />
