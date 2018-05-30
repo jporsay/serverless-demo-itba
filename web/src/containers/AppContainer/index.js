@@ -7,14 +7,14 @@ import {
   withStyles,
   AppBar,
   Toolbar,
-  Typography
+  Typography,
+  GridList
 } from "@material-ui/core";
-import { PhotoLibrary, CameraAlt } from "@material-ui/icons";
+import { PhotoLibrary, CameraAlt, CloudUpload } from "@material-ui/icons";
 
 const styles = theme => ({
   root: {
     flex: 1,
-    // alignContent: "center",
     flexGrow: 1,
     height: "100vh"
   },
@@ -45,11 +45,15 @@ class AppContainer extends Component {
           </Toolbar>
         </AppBar>
         <Grid container direction="column" className={classes.flex}>
-          {/* TODO: Add GridList */}
+          {/* TODO: Add GridList component */}
         </Grid>
         <BottomNavigation showLabels className={classes.nav}>
           <BottomNavigationAction label="Pictures" icon={<PhotoLibrary />} />
           <BottomNavigationAction label="Take picture" icon={<CameraAlt />} />
+          <BottomNavigationAction
+            label="Upload picture"
+            icon={<CloudUpload />}
+          />
         </BottomNavigation>
       </Grid>
       // </div>
