@@ -11,10 +11,13 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@google-cloud/storage": "^1.7.0",
     "firebase-admin": "~5.12.1",
-    "firebase-functions": "^1.0.3"
+    "firebase-functions": "^1.0.3",
+    "sharp": "^0.20.3"
   },
   "devDependencies": {
+    "@types/sharp": "^0.17.8",
     "tslint": "^5.8.0",
     "typescript": "^2.5.3"
   },
