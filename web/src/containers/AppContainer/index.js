@@ -12,7 +12,7 @@ import {
 import { PhotoLibrary, CameraAlt, CloudUpload } from "@material-ui/icons";
 import LoginAware from "components/LoginAware";
 import { logout } from "server/firebase";
-import { Link } from "react-router-dom";
+import { Link, Redirect, withRouter } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -37,22 +37,39 @@ const bottomStyles = theme => ({
 
 const AppBottomNavigation = withStyles(bottomStyles)(
   class extends Component {
-    state = {
-      value: 0
-    };
+    constructor(props) {
+      super(props);
+      console.log(props);
+      this.state = {
+        value: props.location.pathname,
+        valueChanged: false
+      };
+    }
+
     render() {
       const { classes } = this.props;
-      const { value } = this.state;
-      return (
+      const { value, valueChanged } = this.state;
+      return valueChanged ? (
+        <Redirect to={value} />
+      ) : (
         <BottomNavigation
           showLabels
           value={value}
           onChange={this.handleChange}
           className={classes.nav}
         >
-          <BottomNavigationAction label="Pictures" icon={<PhotoLibrary />} />
-          <BottomNavigationAction label="Take picture" icon={<CameraAlt />} />
           <BottomNavigationAction
+            label="Pictures"
+            icon={<PhotoLibrary />}
+            value="/"
+          />
+          <BottomNavigationAction
+            label="Take picture"
+            icon={<CameraAlt />}
+            value="/camera"
+          />
+          <BottomNavigationAction
+            value="/upload"
             label="Upload picture"
             icon={<CloudUpload />}
           />
@@ -60,12 +77,14 @@ const AppBottomNavigation = withStyles(bottomStyles)(
       );
     }
     handleChange = (event, value) => {
-      console.log(value);
-      console.log(event);
-      this.setState({ value });
+      if (value != this.state.value) {
+        this.setState({ value, valueChanged: true });
+      }
     };
   }
 );
+
+const AppBottomNavigationWithRouter = withRouter(AppBottomNavigation);
 
 const topStyles = theme => ({
   flex: {
@@ -117,7 +136,7 @@ class AppContainer extends Component {
       <Grid container direction="column" className={classes.root}>
         <AppTopNavigation />
         {content}
-        <AppBottomNavigation />
+        <AppBottomNavigationWithRouter />
       </Grid>
     );
   }

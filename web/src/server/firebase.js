@@ -91,5 +91,18 @@ function logout() {
     });
 }
 
+function imageStore() {
+  return storage.ref().child("images");
+}
+
 export default firebase;
-export { storage, functions, auth, database, loginProvider, withUser, logout };
+export {
+  storage,
+  functions,
+  auth,
+  database,
+  loginProvider,
+  withUser,
+  logout,
+  imageStore
+};
