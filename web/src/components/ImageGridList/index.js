@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Image from "models/image";
+import compose from "recompose/compose";
 import {
   GridList,
   GridListTile,
   GridListTileBar,
   IconButton,
-  withStyles
+  withStyles,
+  withWidth
 } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
 
@@ -21,25 +23,48 @@ const gridStyles = theme => ({
     color: "rgba(255, 255, 255, 0.54)"
   }
 });
-const ImageGridList = withStyles(gridStyles)(({ classes, images }) => {
-  return (
-    <GridList className={classes.root} cols={1} cellHeight={400}>
-      {images.map(image => (
-        <GridListTile key={image.url + image.author} cols={1}>
-          <img src={image.url} />
-          <GridListTileBar
-            title={image.title}
-            subtitle={<span>by: {image.author}</span>}
-            actionIcon={
-              <IconButton className={classes.icon}>
-                <InfoIcon />
-              </IconButton>
-            }
-          />
-        </GridListTile>
-      ))}
-    </GridList>
-  );
-});
+
+const mapWidthToCols = width => {
+  if (width == "sm" || width == "xs") {
+    return 1;
+  }
+  if (width == "md") {
+    return 2;
+  }
+  if (width == "lg") {
+    return 3;
+  }
+  if (width == "xl") {
+    return 4;
+  }
+};
+
+const ImageGridList = compose(withStyles(gridStyles), withWidth())(
+  ({ classes, images, width }) => {
+    console.log(width);
+    return (
+      <GridList
+        className={classes.root}
+        cols={mapWidthToCols(width)}
+        cellHeight={400}
+      >
+        {images.map(image => (
+          <GridListTile key={image.url + image.author} cols={1}>
+            <img src={image.url} />
+            <GridListTileBar
+              title={image.title}
+              subtitle={<span>by: {image.author}</span>}
+              actionIcon={
+                <IconButton className={classes.icon}>
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    );
+  }
+);
 
 export default ImageGridList;
