@@ -92,7 +92,11 @@ function logout() {
 }
 
 function imageStore() {
-  return storage.ref().child("images");
+  let ref = storage.ref().child("images");
+  if (firebase.auth().currentUser) {
+    ref = ref.child(firebase.auth().currentUser.uid);
+  }
+  return ref;
 }
 
 export default firebase;
