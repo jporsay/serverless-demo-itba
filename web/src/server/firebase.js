@@ -1,4 +1,6 @@
 import firebase from "firebase/app";
+import React, { Component } from "react";
+import User from "models/user";
 import "firebase/auth";
 import "firebase/database";
 import "firebase/functions";
@@ -30,10 +32,7 @@ class LoginProvider {
       .auth()
       .signInWithPopup(provider)
       .then(function(result) {
-        console.log(result);
-        // This gives you a Google Access Token.
         var token = result.credential.accessToken;
-        // The signed-in user info.
         var user = result.user;
         onComplete(user, token);
       })
@@ -45,5 +44,52 @@ class LoginProvider {
 
 const loginProvider = new LoginProvider();
 
+function withUser(WrappedComponent) {
+  return class extends Component {
+    constructor(props) {
+      super(props);
+      this.unsuscribeCallback = null;
+      this.state = {
+        user: null
+      };
+    }
+
+    componentDidMount() {
+      this.unsuscribeCallback = firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          this.setState({
+            user: User.fromFirebase(user)
+          });
+        } else {
+          this.setState({
+            user: null
+          });
+        }
+      });
+    }
+    componentWillUnmount() {
+      if (this.unsuscribeCallback) {
+        this.unsuscribeCallback();
+      }
+    }
+
+    render() {
+      return <WrappedComponent user={this.state.user} {...this.props} />;
+    }
+  };
+}
+
+function logout() {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      /* Success */
+    })
+    .catch(() => {
+      /* Error */
+    });
+}
+
 export default firebase;
-export { storage, functions, auth, database, loginProvider };
+export { storage, functions, auth, database, loginProvider, withUser, logout };

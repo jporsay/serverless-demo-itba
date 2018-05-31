@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { withStyles, Grid, Typography, Button } from "@material-ui/core";
 import { loginProvider } from "server/firebase";
+import LoginAware from "components/LoginAware";
+import { Redirect } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -16,7 +18,7 @@ const styles = theme => ({
   }
 });
 
-class LoginContainer extends Component {
+class InnerLoginContainer extends Component {
   render() {
     const { classes } = this.props;
     return (
@@ -35,15 +37,21 @@ class LoginContainer extends Component {
 
   onLoginClick = () => {
     loginProvider.login(
-      (user, accessToken) => {
-        console.log(user);
-        console.log(accessToken);
-        // TODO: Map firebase user to our user
-        this.props.onSuccess(user);
+      (firebaseUser, accessToken) => {
+        // Nothing to be done here.
       },
       error => {}
     );
   };
 }
+
+const LoginContainer = props => {
+  return (
+    <LoginAware
+      loggedInComponent={<Redirect to="/" />}
+      loggedOutComponent={<InnerLoginContainer {...props} />}
+    />
+  );
+};
 
 export default withStyles(styles)(LoginContainer);

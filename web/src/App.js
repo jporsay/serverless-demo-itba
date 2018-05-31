@@ -1,39 +1,19 @@
-import React, { Component } from "react";
-import { BrowserRouter } from "react-router-dom";
+import React from "react";
 import "./App.css";
 import "typeface-roboto";
-import AppContainer from "containers/AppContainer";
+import GalleryPage from "pages/GalleryPage";
+import UploadPage from "pages/UploadPage";
 import LoginContainer from "containers/LoginContainer";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { Route } from "react-router-dom";
 
-const theme = createMuiTheme({
-  typography: {
-    display3: {
-      color: "#FFFFFF"
-    }
-  }
-});
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: null
-    };
-  }
-  render() {
-    const content =
-      this.state.user != null ? (
-        <AppContainer />
-      ) : (
-        <LoginContainer onSuccess={this.onLoginSuccess} />
-      );
-    return <MuiThemeProvider theme={theme}>{content}</MuiThemeProvider>;
-  }
-
-  onLoginSuccess = user => {
-    this.setState({ user });
-  };
-}
+const App = () => {
+  return (
+    <div>
+      <Route path="/login" component={LoginContainer} />
+      <Route exact path="/" component={GalleryPage} />
+      <Route exact path="/upload" component={UploadPage} />
+    </div>
+  );
+};
 
 export default App;
