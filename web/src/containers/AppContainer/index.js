@@ -145,7 +145,10 @@ class AppContainer extends Component {
       <Grid container direction="column" className={classes.root}>
         <AppTopNavigation />
         {content}
-        <AppBottomNavigationWithRouter />
+        <LoginAware
+          loggedInComponent={<AppBottomNavigationWithRouter />}
+          loggedOutComponent={<div />}
+        />
       </Grid>
     );
   }
