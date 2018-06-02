@@ -140,12 +140,6 @@ class AppContainer extends Component {
       </Grid>
     );
   }
-
-  onLogin = () => {};
-
-  onLogout = () => {
-    logout();
-  };
 }
 
 export default withStyles(styles)(AppContainer);
