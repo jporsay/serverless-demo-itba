@@ -114,7 +114,7 @@ const AppTopNavigation = withStyles(topStyles)(
               }
               loggedOutComponent={
                 <Button color="inherit" onClick={this.onLogin}>
-                  Login
+                  Google login
                 </Button>
               }
             />
