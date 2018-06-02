@@ -11,6 +11,7 @@ import {
   withWidth
 } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
+import moment from "moment";
 
 const gridStyles = theme => ({
   root: {
@@ -48,11 +49,15 @@ const ImageGridList = compose(withStyles(gridStyles), withWidth())(
         cellHeight={400}
       >
         {images.map(image => (
-          <GridListTile key={image.imageUrl} cols={1}>
-            <img src={image.thumbUrl} />
+          <GridListTile key={image.imagePath} cols={1}>
+            <img src={image.author.pic} />
             <GridListTileBar
-              title={image.author}
-              // subtitle={<span>by: {image.author}</span>}
+              title={image.author.name}
+              subtitle={
+                <span style={{ marginBottom: "5px", lineHeight: "1.5" }}>
+                  {moment(image.uploadTime).fromNow()}
+                </span>
+              }
               actionIcon={
                 <IconButton className={classes.icon}>
                   <InfoIcon />
