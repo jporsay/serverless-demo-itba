@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withStyles, Grid, Button } from "@material-ui/core";
 import AppContainer from "containers/AppContainer";
 import Webcam from "react-webcam";
+import FileUpload from "@material-ui/icons/FileUpload";
 import { imageStore } from "server/firebase";
 import { Redirect } from "react-router-dom";
 
@@ -67,9 +68,11 @@ const pageStyles = theme => ({
   upload: {
     paddingTop: "10px"
   },
-  webcam: {
-    paddingBottom: "10px",
-    overflow: "visible"
+  retake: {
+    marginLeft: "10px"
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
   }
 });
 
@@ -104,15 +107,23 @@ class UploadPage extends Component {
             justify="center"
             align="center"
           >
-            {/* <Grid item className={classes.webcam}> */}
             {content}
-            {/* </Grid> */}
             <Grid item className={classes.upload}>
-              <Button variant="raised" component="span" onClick={this.onUpload}>
-                Upload
-              </Button>
               {this.state.image ? (
                 <Button
+                  variant="raised"
+                  component="span"
+                  onClick={this.onUpload}
+                >
+                  Upload
+                  <FileUpload className={classes.rightIcon} />
+                </Button>
+              ) : (
+                <span />
+              )}
+              {this.state.image ? (
+                <Button
+                  className={classes.retake}
                   variant="raised"
                   component="span"
                   onClick={this.onRetake}

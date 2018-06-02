@@ -3,6 +3,7 @@ import { withStyles, Grid, Button } from "@material-ui/core";
 import ImageGridList from "components/ImageGridList";
 import AppContainer from "containers/AppContainer";
 import Dropzone from "react-dropzone";
+import FileUpload from "@material-ui/icons/FileUpload";
 import { imageStore } from "server/firebase";
 import { Redirect } from "react-router-dom";
 
@@ -15,6 +16,9 @@ const styles = theme => ({
   },
   upload: {
     paddingTop: "10px"
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
   }
 });
 
@@ -33,7 +37,7 @@ class UploadPage extends Component {
   render() {
     const { classes } = this.props;
     const content = this.state.file ? (
-      <img src={this.state.file.preview} width="30%" />
+      <img src={this.state.file.preview} width="80%" />
     ) : (
       <Dropzone accept="image/*" onDrop={this.onDrop} />
     );
@@ -50,9 +54,18 @@ class UploadPage extends Component {
           >
             <Grid item>{content}</Grid>
             <Grid item className={classes.upload}>
-              <Button variant="raised" component="span" onClick={this.onUpload}>
-                Upload
-              </Button>
+              {this.state.file ? (
+                <Button
+                  variant="raised"
+                  component="span"
+                  onClick={this.onUpload}
+                >
+                  Upload
+                  <FileUpload className={classes.rightIcon} />
+                </Button>
+              ) : (
+                <div />
+              )}
             </Grid>
           </Grid>
         }
