@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withStyles, Grid, Button } from "@material-ui/core";
-import ImageGridList from "components/ImageGridList";
 import AppContainer from "containers/AppContainer";
 import Webcam from "react-webcam";
 import { imageStore } from "server/firebase";
