@@ -7,21 +7,33 @@ import {
   GridListTile,
   GridListTileBar,
   IconButton,
+  Avatar,
+  Paper,
+  Card,
+  CardHeader,
+  CardMedia,
+  CardActions,
   withStyles,
   withWidth
 } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
+import { Save } from "@material-ui/icons";
 import moment from "moment";
 
 const gridStyles = theme => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
-    backgroundColor: theme.palette.background.paper
+    justifyContent: "space-around"
+    // backgroundColor: theme.palette.background.paper
   },
   icon: {
     color: "rgba(255, 255, 255, 0.54)"
+  },
+  card: {},
+  media: {
+    height: 0,
+    paddingTop: "60%"
   }
 });
 
@@ -40,30 +52,33 @@ const mapWidthToCols = width => {
   }
 };
 
+function downloadImage(url) {
+  window.open(url);
+}
+
 const ImageGridList = compose(withStyles(gridStyles), withWidth())(
   ({ classes, images, width }) => {
     return (
       <GridList
         className={classes.root}
         cols={mapWidthToCols(width)}
-        cellHeight={400}
+        cellHeight={380}
       >
         {images.map(image => (
-          <GridListTile key={image.imagePath} cols={1}>
-            <img src={image.author.pic} />
-            <GridListTileBar
-              title={image.author.name}
-              subtitle={
-                <span style={{ marginBottom: "5px", lineHeight: "1.5" }}>
-                  {moment(image.uploadTime).fromNow()}
-                </span>
-              }
-              actionIcon={
-                <IconButton className={classes.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
+          <GridListTile key={image.thumbUrl} cols={1}>
+            <Card className={classes.card}>
+              <CardHeader
+                avatar={<Avatar src={image.author.pic} />}
+                title={image.author.name}
+                subheader={moment(image.uploadTime).fromNow()}
+                action={
+                  <IconButton onClick={() => downloadImage(image.imageUrl)}>
+                    <Save />
+                  </IconButton>
+                }
+              />
+              <CardMedia image={image.thumbUrl} className={classes.media} />
+            </Card>
           </GridListTile>
         ))}
       </GridList>

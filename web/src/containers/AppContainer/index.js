@@ -103,7 +103,7 @@ const AppTopNavigation = withStyles(topStyles)(
               color="inherit"
               className={classes.flex}
             >
-              InstaCat
+              Cloudie
             </Typography>
             <LoginAware
               loggedInComponent={

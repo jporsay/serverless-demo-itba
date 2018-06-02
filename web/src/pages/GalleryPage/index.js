@@ -7,7 +7,8 @@ const styles = theme => ({
   container: {
     padding: "8px",
     flex: 1,
-    overflow: "hidden"
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.default
   }
 });
 
