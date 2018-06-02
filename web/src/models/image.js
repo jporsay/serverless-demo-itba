@@ -1,9 +1,22 @@
-class Image {
-  static fromFirebase(ref) {}
+import { storage } from "server/firebase";
 
-  constructor(ref, name, url) {
+class Image {
+  static fromFirebase(ref) {
+    return new Image(
+      ref.name,
+      ref.imagePath,
+      ref.thumbPath,
+      ref.uploadTime,
+      ref.pic
+    );
+  }
+
+  constructor(name, imageUrl, thumbUrl, uploadTime, pic) {
     this.name = name;
-    this.url = url;
-    this.ref = ref;
+    this.pic = pic;
+    this.imageUrl = imageUrl;
+    this.thumbUrl = thumbUrl;
+    this.uploadTime = uploadTime;
   }
 }
+export default Image;

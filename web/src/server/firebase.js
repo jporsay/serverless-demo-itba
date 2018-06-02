@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import React, { Component } from "react";
 import User from "models/user";
 import "firebase/auth";
-import "firebase/database";
+import "firebase/firestore";
 import "firebase/functions";
 import "firebase/storage";
 
@@ -20,7 +20,7 @@ firebase.initializeApp(config);
 let storage = firebase.storage();
 let functions = firebase.functions();
 let auth = firebase.auth();
-let database = firebase.database();
+let database = firebase.firestore();
 
 class LoginProvider {
   login(onComplete, onError) {
@@ -104,6 +104,10 @@ function imageStore() {
   return ref;
 }
 
+function galleryStore() {
+  return database.collection("images");
+}
+
 export default firebase;
 export {
   storage,
@@ -113,5 +117,6 @@ export {
   loginProvider,
   withUser,
   logout,
-  imageStore
+  imageStore,
+  galleryStore
 };

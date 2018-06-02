@@ -48,11 +48,11 @@ const ImageGridList = compose(withStyles(gridStyles), withWidth())(
         cellHeight={400}
       >
         {images.map(image => (
-          <GridListTile key={image.url + image.author} cols={1}>
-            <img src={image.url} />
+          <GridListTile key={image.imageUrl} cols={1}>
+            <img src={image.thumbUrl} />
             <GridListTileBar
-              title={image.title}
-              subtitle={<span>by: {image.author}</span>}
+              title={image.author}
+              // subtitle={<span>by: {image.author}</span>}
               actionIcon={
                 <IconButton className={classes.icon}>
                   <InfoIcon />
