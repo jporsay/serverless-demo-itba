@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { PhotoLibrary, CameraAlt, CloudUpload } from "@material-ui/icons";
 import LoginAware from "components/LoginAware";
-import { logout } from "server/firebase";
+import { logout, loginProvider } from "server/firebase";
 import { Link, Redirect, withRouter } from "react-router-dom";
 
 const styles = theme => ({
@@ -113,7 +113,7 @@ const AppTopNavigation = withStyles(topStyles)(
                 </Button>
               }
               loggedOutComponent={
-                <Button color="inherit" component={Link} to="/login">
+                <Button color="inherit" onClick={this.onLogin}>
                   Login
                 </Button>
               }
@@ -125,6 +125,15 @@ const AppTopNavigation = withStyles(topStyles)(
 
     onLogout = () => {
       logout();
+    };
+
+    onLogin = () => {
+      loginProvider.login(
+        (firebaseUser, accessToken) => {
+          // Nothing to be done here.
+        },
+        error => {}
+      );
     };
   }
 );
