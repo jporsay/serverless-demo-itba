@@ -77,7 +77,7 @@ const AppBottomNavigation = withStyles(bottomStyles)(
       );
     }
     handleChange = (event, value) => {
-      if (value != this.state.value) {
+      if (value !== this.state.value) {
         this.setState({ value, valueChanged: true });
       }
     };
