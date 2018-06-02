@@ -41,7 +41,6 @@ const mapWidthToCols = width => {
 
 const ImageGridList = compose(withStyles(gridStyles), withWidth())(
   ({ classes, images, width }) => {
-    console.log(width);
     return (
       <GridList
         className={classes.root}
