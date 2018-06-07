@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as path from 'path';
-import * as gcs from '@google-cloud/storage';
 import * as sharp from 'sharp';
+import * as admin from 'firebase-admin';
 
 const THUMB_MAX_WIDTH = 200;
 const THUMB_MAX_HEIGHT = 200;
@@ -22,7 +22,7 @@ export default functions.storage.object().onFinalize((object) => {
         return null;
     }
 
-    const bucket = gcs().bucket(fileBucket);
+    const bucket = admin.storage().bucket(fileBucket);
     const metadata = {contentType: contentType};
     const thumbFileName = `thumb_${fileName}`;
     const thumbFilePath = path.join(path.dirname(filePath), thumbFileName);
