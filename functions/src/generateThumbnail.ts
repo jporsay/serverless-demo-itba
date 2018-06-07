@@ -2,9 +2,6 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as path from 'path';
 import * as sharp from 'sharp';
-import * as admin from 'firebase-admin';
-
-admin.initializeApp();
 
 const THUMB_MAX_WIDTH = 400;
 const THUMB_MAX_HEIGHT = 400;
