@@ -9,7 +9,7 @@ import * as inquirer from 'inquirer'
 
 inquirer.registerPrompt('directory', require('inquirer-select-directory'));
 
-const serviceAccount = require("./serverless-itba-firebase-adminsdk-vlu7v-022836d6b6.json");
+const serviceAccount = require("./serviceAccountKey.json");
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://serverless-itba.firebaseio.com",
