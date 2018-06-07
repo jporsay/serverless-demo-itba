@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import User from "models/user";
 import "firebase/auth";
 import "firebase/firestore";
-import "firebase/functions";
 import "firebase/storage";
 
 var config = {
@@ -18,7 +17,6 @@ var config = {
 firebase.initializeApp(config);
 
 let storage = firebase.storage();
-let functions = firebase.functions();
 let auth = firebase.auth();
 let database = firebase.firestore();
 
@@ -94,24 +92,23 @@ function logout() {
     .catch(() => {
       /* Error */
     });
-}
+};
 
-function imageStore() {
+const imageStore = () => {
   let ref = storage.ref().child("images");
-  if (firebase.auth().currentUser) {
-    ref = ref.child(firebase.auth().currentUser.uid);
+  if (auth.currentUser) {
+    ref = ref.child(auth.currentUser.uid);
   }
   return ref;
-}
+};
 
-function galleryStore() {
+const galleryStore = () => {
   return database.collection("images");
-}
+};
 
 export default firebase;
 export {
   storage,
-  functions,
   auth,
   database,
   loginProvider,
