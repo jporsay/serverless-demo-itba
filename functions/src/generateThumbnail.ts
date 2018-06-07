@@ -46,6 +46,7 @@ export default functions.storage.object().onFinalize(async (object, context) => 
 
     const pipeline = sharp();
     pipeline
+        .rotate()
         .resize(THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT)
         .crop(sharp.strategy.entropy)
         .pipe(thumbnailUploadStream);
