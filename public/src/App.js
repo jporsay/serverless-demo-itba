@@ -4,13 +4,12 @@ import "typeface-roboto";
 import FirebaseGalleryPage from "pages/FirebaseGalleryPage";
 import UploadPage from "pages/UploadPage";
 import CameraPage from "pages/CameraPage";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 const App = () => {
   return (
     <div>
       <Route exact path="/" component={FirebaseGalleryPage} />
-      <Route exact path="/index" component={FirebaseGalleryPage} />
       <Route exact path="/upload" component={UploadPage} />
       <Route exact path="/camera" component={CameraPage} />
     </div>
