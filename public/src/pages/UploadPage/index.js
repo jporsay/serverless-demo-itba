@@ -7,6 +7,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import Fade from "@material-ui/core/Fade";
 import { imageStore } from "server/firebase";
 import { Redirect } from "react-router-dom";
+import * as loadImage from "blueimp-load-image";
 
 const styles = theme => ({
   container: {
@@ -107,6 +108,15 @@ class UploadPage extends Component {
       if (this.state.file) {
         window.URL.revokeObjectURL(this.state.file.preview);
       }
+      let file = accepted[0];
+      const loadImageOptions = { canvas: true, orientation: true };
+      loadImage(
+        file,
+        canvas => {
+          file.preview = canvas.toDataURL(file.type);
+        },
+        loadImageOptions
+      );
       this.setState({ file: accepted[0] });
     }
   };
