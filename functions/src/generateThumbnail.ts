@@ -10,13 +10,18 @@ admin.initializeApp();
 const firestore = admin.firestore();
 
 interface Image {
+    author: {
+        name: string,
+        uid: string,
+        pic: string
+    },
     userIdUploader: string,
     imagePath: string,
     thumbPath: string,
     uploadTime: Date,
 }
 
-export default functions.storage.object().onFinalize((object) => {
+export default functions.storage.object().onFinalize(async (object, context) => {
     const fileBucket = object.bucket;
     const filePath = object.name;
     const contentType = object.contentType;
@@ -36,7 +41,8 @@ export default functions.storage.object().onFinalize((object) => {
     const metadata = {contentType: contentType};
     const thumbFileName = `thumb_${fileName}`;
     const thumbFilePath = path.join(path.dirname(filePath), thumbFileName);
-    const thumbnailUploadStream = bucket.file(thumbFilePath).createWriteStream({metadata});
+    const thumbFile = bucket.file(thumbFilePath);
+    const thumbnailUploadStream = thumbFile.createWriteStream({metadata});
 
     const pipeline = sharp();
     pipeline
@@ -44,20 +50,33 @@ export default functions.storage.object().onFinalize((object) => {
         .crop(sharp.strategy.entropy)
         .pipe(thumbnailUploadStream);
 
-    bucket.file(filePath).createReadStream().pipe(pipeline);
+    const originalFile = bucket.file(filePath)
+    originalFile.createReadStream().pipe(pipeline);
 
     const streamAsPromise = new Promise((resolve, reject) =>
         thumbnailUploadStream.on('finish', resolve).on('error', reject)
     );
 
-    return streamAsPromise.then(() => {
+    return streamAsPromise.then(async (result) => {
         console.log('Thumbnail created successfully');
-        firestore.collection('images').add({
-            userIdUploader: filePath.match('.*/images/(\\w+)/.*')[1],
-            imagePath: filePath,
-            thumbPath: thumbFilePath,
-            uploadTime: new Date(),
-        } as Image)
+        const config = {
+            action: 'read',
+            expires: '03-01-2500',
+        };
+        const user = await admin.auth().getUser(filePath.match('images/(\\w+)/.*')[1]);
+        const imageUrl = (await originalFile.getSignedUrl(config))[0];
+        const thumbUrl = (await thumbFile.getSignedUrl(config))[0];
+        await firestore.collection('images').add({
+            author: {
+                name: user.displayName,
+                uid: user.uid,
+                pic: user.photoURL,
+            },
+            imagePath: imageUrl,
+            thumbPath: thumbUrl,
+            uploadTime: new Date(object.timeCreated),
+        } as Image);
+        console.log('Feed record crated successfully');
         return null;
     });
 });
