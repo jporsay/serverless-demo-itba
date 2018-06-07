@@ -1,31 +1,47 @@
 import React, { Component } from "react";
 import { withStyles, Grid, Button } from "@material-ui/core";
-import ImageGridList from "components/ImageGridList";
 import AppContainer from "containers/AppContainer";
 import Dropzone from "react-dropzone";
 import FileUpload from "@material-ui/icons/FileUpload";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Fade from "@material-ui/core/Fade";
 import { imageStore } from "server/firebase";
 import { Redirect } from "react-router-dom";
 
 const styles = theme => ({
   container: {
-    padding: "8px",
     flex: 1,
     flexDirection: "column",
     overflow: "auto"
   },
   upload: {
-    paddingTop: "10px"
+    paddingBottom: "5vh",
+    paddingTop: "2vh"
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
+  },
+  uploading: {
+    marginTop: "auto"
+  },
+  content: {
+    flex: 1,
+    flexDirection: "column",
+    paddingTop: "30vh"
+  },
+  content_preview: {
+    flex: 1,
+    flexDirection: "column",
+    paddingTop: "5vh",
+    overflow: "auto"
   }
 });
 
 class UploadPage extends Component {
   state = {
     file: null,
-    uploaded: false
+    uploaded: false,
+    uploading: false
   };
 
   componentWillUnmount() {
@@ -52,10 +68,23 @@ class UploadPage extends Component {
             justify="center"
             align="center"
           >
-            <Grid item>{content}</Grid>
+            <Grid item className={classes.uploading}>
+              <Fade in={this.state.uploading}>
+                <LinearProgress color="secondary" />
+              </Fade>
+            </Grid>
+            <Grid
+              item
+              className={
+                this.state.file ? classes.content_preview : classes.content
+              }
+            >
+              {content}
+            </Grid>
             <Grid item className={classes.upload}>
               {this.state.file ? (
                 <Button
+                  disabled={this.state.uploading}
                   variant="raised"
                   component="span"
                   onClick={this.onUpload}
@@ -83,6 +112,7 @@ class UploadPage extends Component {
   };
 
   onUpload = () => {
+    this.setState({ uploading: true });
     imageStore()
       .child(this.state.file.name)
       .put(this.state.file)

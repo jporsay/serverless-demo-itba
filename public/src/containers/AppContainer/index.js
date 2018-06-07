@@ -12,7 +12,7 @@ import {
 import { PhotoLibrary, CameraAlt, CloudUpload } from "@material-ui/icons";
 import LoginAware from "components/LoginAware";
 import { logout, loginProvider } from "server/firebase";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -21,10 +21,6 @@ const styles = theme => ({
     height: "100vh"
   },
   flex: {
-    flex: 1
-  },
-  imageList: {
-    padding: "8px",
     flex: 1
   }
 });

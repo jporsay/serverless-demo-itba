@@ -1,22 +1,16 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Image from "models/image";
 import compose from "recompose/compose";
 import {
   GridList,
   GridListTile,
-  GridListTileBar,
   IconButton,
   Avatar,
-  Paper,
   Card,
   CardHeader,
   CardMedia,
-  CardActions,
   withStyles,
   withWidth
 } from "@material-ui/core";
-import InfoIcon from "@material-ui/icons/Info";
 import { Save } from "@material-ui/icons";
 import moment from "moment";
 
@@ -38,16 +32,16 @@ const gridStyles = theme => ({
 });
 
 const mapWidthToCols = width => {
-  if (width == "sm" || width == "xs") {
+  if (width === "sm" || width === "xs") {
     return 1;
   }
-  if (width == "md") {
+  if (width === "md") {
     return 2;
   }
-  if (width == "lg") {
+  if (width === "lg") {
     return 3;
   }
-  if (width == "xl") {
+  if (width === "xl") {
     return 4;
   }
 };

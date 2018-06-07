@@ -8,7 +8,6 @@ import { Redirect } from "react-router-dom";
 
 const webcamStyles = theme => ({
   container: {
-    padding: "8px",
     flex: 1,
     flexDirection: "column",
     overflow: "auto"
@@ -79,7 +78,8 @@ const pageStyles = theme => ({
 class UploadPage extends Component {
   state = {
     image: null,
-    uploaded: false
+    uploaded: false,
+    uploading: false
   };
 
   render() {
@@ -111,6 +111,7 @@ class UploadPage extends Component {
             <Grid item className={classes.upload}>
               {this.state.image ? (
                 <Button
+                  disabled={this.state.uploading}
                   variant="raised"
                   component="span"
                   onClick={this.onUpload}
@@ -150,6 +151,7 @@ class UploadPage extends Component {
   };
 
   onUpload = () => {
+    this.setState({ uploading: true });
     const currentDate = new Date();
     imageStore()
       .child(currentDate.toString())

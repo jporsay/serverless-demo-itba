@@ -1,5 +1,3 @@
-import { storage } from "server/firebase";
-
 class Image {
   static fromFirebase(ref, uid) {
     return new Image(
