@@ -7,3 +7,5 @@ This project was created to demo some features of serverless architectures. We f
 ### [Firebase: Getting started](HOWTO.md)
 
 ### [Web: Getting started](public/README.md)
+
+### [Uploader script](UPLOADER.md)
