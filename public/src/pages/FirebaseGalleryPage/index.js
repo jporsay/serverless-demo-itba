@@ -15,7 +15,7 @@ class FirebaseGalleryPage extends Component {
       .limit(100)
       .onSnapshot(doc => {
         var images = [];
-        doc.forEach(im => images.push(Image.fromFirebase(im.data())));
+        doc.forEach(im => images.push(Image.fromFirebase(im.data(), im.id)));
         this.setState({
           images
         });
