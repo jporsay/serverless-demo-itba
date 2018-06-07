@@ -54,7 +54,7 @@ class UploadPage extends Component {
   render() {
     const { classes } = this.props;
     const content = this.state.file ? (
-      <img src={this.state.file.preview} width="80%" />
+      <img src={this.state.file.preview} width="80%" alt="Preview" />
     ) : (
       <Dropzone accept="image/*" onDrop={this.onDrop} />
     );
@@ -109,7 +109,6 @@ class UploadPage extends Component {
         window.URL.revokeObjectURL(this.state.file.preview);
       }
       let file = accepted[0];
-      const loadImageOptions = { orientation: true };
       loadImage(
         file,
         canvas => {

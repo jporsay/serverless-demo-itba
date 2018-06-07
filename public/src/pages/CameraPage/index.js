@@ -91,7 +91,7 @@ class UploadPage extends Component {
         justify="center"
         align="center"
       >
-        <img src={this.state.image} height="100%" />
+        <img src={this.state.image} height="100%" alt="Preview" />
       </Grid>
     ) : (
       <WebcamCaptureStyled onCapture={this.onCapture} />
