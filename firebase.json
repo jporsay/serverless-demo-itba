@@ -15,7 +15,7 @@
   "hosting": {
     "predeploy": [
         "yarn --cwd ./public install",
-        "yarn --cwd ./public run build"
+        "yarn --cwd ./public build"
     ],
     "public": "public/build"
   },

@@ -28,7 +28,7 @@ class LoginProvider {
     provider.addScope("email");
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
       auth
-        .signInWithRedirect(provider)
+        .signInWithPopup(provider)
         .then(result => {
           var token = result.credential.accessToken;
           var user = result.user;
