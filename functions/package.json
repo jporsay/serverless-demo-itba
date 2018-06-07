@@ -13,10 +13,14 @@
   "dependencies": {
     "firebase-admin": "~5.12.1",
     "firebase-functions": "^1.0.3",
+    "inquirer": "^6.0.0",
+    "inquirer-select-directory": "^1.2.0",
+    "listr": "^0.14.1",
     "sharp": "^0.20.3"
   },
   "devDependencies": {
-    "@types/sharp": "^0.17.8",
+    "@types/inquirer": "0.0.41",
+    "@types/listr": "^0.13.0",
     "tslint": "^5.8.0",
     "typescript": "^2.5.3"
   },
