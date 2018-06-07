@@ -43,7 +43,7 @@ class LoginProvider {
 
 const loginProvider = new LoginProvider();
 
-function withUser(WrappedComponent) {
+const withUser = WrappedComponent => {
   return class extends Component {
     constructor(props) {
       super(props);
@@ -76,9 +76,9 @@ function withUser(WrappedComponent) {
       return <WrappedComponent user={this.state.user} {...this.props} />;
     }
   };
-}
+};
 
-function logout() {
+const logout = () => {
   firebase
     .auth()
     .signOut()
