@@ -32,7 +32,7 @@ const gridStyles = theme => ({
   },
   card: {},
   media: {
-    height: 0,
+    height: 200,
     paddingTop: "60%"
   }
 });
@@ -56,34 +56,35 @@ function downloadImage(url) {
   window.open(url);
 }
 
-const ImageGridList = compose(withStyles(gridStyles), withWidth())(
-  ({ classes, images, width }) => {
-    return (
-      <GridList
-        className={classes.root}
-        cols={mapWidthToCols(width)}
-        cellHeight={380}
-      >
-        {images.map(image => (
-          <GridListTile key={image.thumbUrl} cols={1}>
-            <Card className={classes.card}>
-              <CardHeader
-                avatar={<Avatar src={image.author.pic} />}
-                title={image.author.name}
-                subheader={moment(image.uploadTime).fromNow()}
-                action={
-                  <IconButton onClick={() => downloadImage(image.imageUrl)}>
-                    <Save />
-                  </IconButton>
-                }
-              />
-              <CardMedia image={image.thumbUrl} className={classes.media} />
-            </Card>
-          </GridListTile>
-        ))}
-      </GridList>
-    );
-  }
-);
+const ImageGridList = compose(
+  withStyles(gridStyles),
+  withWidth()
+)(({ classes, images, width }) => {
+  return (
+    <GridList
+      className={classes.root}
+      cols={mapWidthToCols(width)}
+      cellHeight={550}
+    >
+      {images.map(image => (
+        <GridListTile key={image.uid} cols={1}>
+          <Card className={classes.card}>
+            <CardHeader
+              avatar={<Avatar src={image.author.pic} />}
+              title={image.author.name}
+              subheader={moment(image.uploadTime).fromNow()}
+              action={
+                <IconButton onClick={() => downloadImage(image.imageUrl)}>
+                  <Save />
+                </IconButton>
+              }
+            />
+            <CardMedia image={image.thumbUrl} className={classes.media} />
+          </Card>
+        </GridListTile>
+      ))}
+    </GridList>
+  );
+});
 
 export default ImageGridList;
