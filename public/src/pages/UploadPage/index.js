@@ -109,15 +109,15 @@ class UploadPage extends Component {
         window.URL.revokeObjectURL(this.state.file.preview);
       }
       let file = accepted[0];
-      const loadImageOptions = { canvas: true, orientation: true };
+      const loadImageOptions = { orientation: true };
       loadImage(
         file,
         canvas => {
           file.preview = canvas.toDataURL(file.type);
+          this.setState({ file });
         },
-        loadImageOptions
+        { orientation: true }
       );
-      this.setState({ file: accepted[0] });
     }
   };
 
