@@ -5,8 +5,8 @@ import * as admin from 'firebase-admin';
 
 admin.initializeApp();
 
-const THUMB_MAX_WIDTH = 200;
-const THUMB_MAX_HEIGHT = 200;
+const THUMB_MAX_WIDTH = 400;
+const THUMB_MAX_HEIGHT = 400;
 
 export default functions.storage.object().onFinalize((object) => {
     const fileBucket = object.bucket;
