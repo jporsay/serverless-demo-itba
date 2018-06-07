@@ -31,7 +31,7 @@ export default functions.storage.object().onFinalize((object) => {
     const pipeline = sharp();
     pipeline
         .resize(THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT)
-        .max()
+        .crop(sharp.strategy.entropy)
         .pipe(thumbnailUploadStream);
 
     bucket.file(filePath).createReadStream().pipe(pipeline);
