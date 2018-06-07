@@ -27,12 +27,11 @@ inquirer.prompt([
         name: 'userUid',
         message: 'Upload images as (email):',
         default: 'qcho86@gmail.com',
-        filter: function (input) {
-            const done = this.async();
+        filter: (input) => new Promise((resolve, reject) => {
             admin.auth().getUserByEmail(input)
-                .then((user) => done(null, user.uid))
-                .catch((e) => done(e))
-        },
+                .then((user) => resolve(user.uid))
+                .catch((e) => reject(e))
+        }),
     },
     {
         name: 'concurrency',
