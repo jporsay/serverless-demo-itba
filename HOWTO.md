@@ -2,6 +2,23 @@
 
 Firebase is a service that works on top of [Google Cloud](https://cloud.google.com/) to bring the benefits of serverless architecture to the end-user, so that they don't have to worry about managing or scaling servers and can focus on the problem at hand.
 
+## Table of contents
+
+- [Prerequisites](#prerequisites)
+  - [Firebase Registration](#firebase-registration)
+  - [Firebase project creation](#firebase-project-creation)
+  - [Firebase services configuration](#firebase-services-configuration)
+    - [Firebase Storage](#firebase-storage)
+    - [Firebase Authentication](#firebase-authentication)
+    - [Firebase Database](#firebase-database)
+    - [Firebase Functions](#firebase-functions)
+    - [Firebase Hosting](#firebase-hosting)
+  - [Web application configuration](#web-application-configuration)
+- [CLI tools installation](#cli-tools-installation)
+  - [Firebase files](#firebase-files)
+- [Firebase functions development](#firebase-functions-development)
+- [Firebase deploy](#firebase-deploy)
+
 ## Prerequisites
 
 ### Firebase Registration
@@ -178,4 +195,90 @@ Once the tools are installed, we need to login to Firebase so that we have deplo
 
 ```bash
 firebase login
+```
+
+After we are logged in, it's time to initialize Firebase so that it can create every directoy and file it needs for the services we have configured. The following command will prompt us with a series of questions in order to better suit our specific project:
+
+```bash
+firebase init
+```
+
+After initializing Firebase, we need to specify which project we'll use, to do this, we run the following command with the project id as an argument:
+
+```bash
+firebase use serverless-itba
+```
+
+Now we are ready to develop and deploy
+
+### Firebase files
+
+Firebase will create the following files:
+
+- `storage.rules` Contains Storage security rules
+- `firestore.rules` Contains Firestore security rules
+- `database.rules.json` Contains database security rules
+- `firestore.indexes.json` Contains Firestore index definitions
+- `public/` Files under this directory will be deployed to Firebase Hosting
+- `functions/` Files under this directory will be deployed to Firebase Functions
+  - All of our cloud functions will be defined inside here
+- `firebase.json` Contains settings for each of the services, such as pre and post deploy scripts and configuration (rules/indexes) mapping for each service.
+
+## Firebase functions development
+
+For this project, we chose to develop Firebase functions using _Typescript_. Since no browser runs _Typescript_, there are some extra steps that the Firebase CLI tools do automatically for us to transpile the Typescript code to Javascript.
+
+Function code is implemented inside the `functions/src/` folder.
+
+In the `index.ts` file we add an include guard that only imports the _generateThumbnail_ function if it wasn't imported previously.
+
+In the `generateThumbnail.ts` file is where the cloud function is defined.
+
+Here we import the required Firebase libraries:
+
+```typescript
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+// Utility imports to do image and file path manipulation
+import * as path from "path";
+import * as sharp from "sharp";
+```
+
+Once we have `functions` imported, we can start defining each of our functions using any of the available triggers (HTTP, Storage, etc.)
+
+An example of this is:
+
+```typescript
+/**
+ * Trigger for our storage service that is called
+ * whenever a file finished uploading, passing to our
+ * callback function the object that was added along
+ * with metadata such as bucket that received the file,
+ * file name, file content type, etc.
+*/
+functions.storage.object().onFinalize(object => {...})
+```
+
+You can see the whole implementation in [generateThumbnail.ts](functions/etc/src/generateThumbnail.ts)
+
+## Firebase deploy
+
+Once we have finished creating cloud functions, defining security rules, database indexes, etc., we are ready to do our first deploy.
+
+The basic way to deploy to firebase is by running the following command:
+
+```bash
+firebase deploy
+```
+
+That function will deploy the configuration files along with the required files for all of our configured services. Meaning that it will:
+
+- Deploy our static website residing inside the `public` directory
+- Deploy all of our functions inside the `functions` directory
+- Update security rules for the database and storage
+
+If you don't want to deploy everything, `firebase deploy` allows you to specify which services you want to deploy:
+
+```bash
+firebase deploy --only hosting
 ```
