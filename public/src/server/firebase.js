@@ -26,22 +26,18 @@ class LoginProvider {
     var provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope("profile");
     provider.addScope("email");
-    firebase
-      .auth()
-      .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-      .then(() => {
-        firebase
-          .auth()
-          .signInWithPopup(provider)
-          .then(function(result) {
-            var token = result.credential.accessToken;
-            var user = result.user;
-            onComplete(user, token);
-          })
-          .catch(error => {
-            onError(error);
-          });
-      });
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+      auth
+        .signInWithPopup(provider)
+        .then(result => {
+          var token = result.credential.accessToken;
+          var user = result.user;
+          onComplete(user, token);
+        })
+        .catch(error => {
+          onError(error);
+        });
+    });
   }
 }
 
@@ -58,7 +54,7 @@ function withUser(WrappedComponent) {
     }
 
     componentDidMount() {
-      this.unsuscribeCallback = firebase.auth().onAuthStateChanged(user => {
+      this.unsuscribeCallback = auth.onAuthStateChanged(user => {
         if (user) {
           this.setState({
             user: User.fromFirebase(user)
