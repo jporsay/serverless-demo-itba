@@ -21,7 +21,7 @@ inquirer.prompt([
         name: 'rootDir',
         message: 'Images directory:',
         type: 'directory',
-        basePath: '/home/qcho/Pictures/sample'
+        basePath: '.'
     } as any,
     {
         name: 'userUid',
